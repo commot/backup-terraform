@@ -1,13 +1,13 @@
 resource "aws_backup_plan" "backup_plan" {
   
-  name = "${var.name}-backup-plan"
+  name = "${var.environment}-${var.name}-backup-plan"
 
 
   dynamic "rule" {
     for_each = var.rules
     content {
 
-    rule_name = "${rule.value.rule_name}-backup-rule"
+    rule_name = "${var.environment}-${rule.value.rule_name}-backup-rule"
     target_vault_name = var.local_vault
     schedule = rule.value.schedule
 
@@ -30,7 +30,7 @@ resource "aws_backup_plan" "backup_plan" {
 resource "aws_backup_selection" "backup_selection" {
 
   iam_role_arn = var.backup_role
-  name         = "${var.name}-backup-selection"
+  name         = "${var.environment}-${var.name}-backup-selection"
   plan_id      = aws_backup_plan.backup_plan.id
 
      dynamic "selection_tag" {

@@ -1,8 +1,10 @@
 module "backup_vault" {
-  source = "../../Modules/Backup/Vault"
+  source = "../../Modules/Backup/Local_vault"
 
-  kms_key  = module.kms.arn
   location = var.location
+  environment = var.environment
+  key_alias = "${var.environment}-${var.location}-backup"
+  centralized_account_number = var.centralized_account_number
 
 }
 
@@ -15,25 +17,9 @@ module "backup_plan" {
   rules             = lookup(each.value, "rules", null)
   centralized_vault = var.centrailized_vault_arn
   local_vault       = module.backup_vault.vault_name
-  backup_role       = module.iam.arn
+  backup_role       = "arn:aws:iam::039754842072:role/aws-service-role/backup.amazonaws.com/AWSServiceRoleForBackup"
   selection_tags    = lookup(each.value, "criteria", null) 
-  kms_key           = module.kms.arn
   location          = var.location
+  environment = var.environment
 
 }
-
-module "kms" {
-  source = "../../Modules/KMS"
-
-  description = var.kms_description
-  key_alias   = var.key_alias
-  key_policy  = data.aws_iam_policy_document.key_policy.json
-
-}
-
-module "iam" {
-  source = "../../Modules/IAM/Service_Role"
-
-  service_name = "backup.amazonaws.com"
-}
-

@@ -3,12 +3,6 @@ variable "location" {
   description = "location for the config relative to the centralized vault"
 }
 
-variable "key_alias" {
-  type        = string
-  description = "alias for the key used by backup process"
-
-}
-
 variable "kms_description" {
   type        = string
   description = "alias for the key used by backup process"
@@ -19,12 +13,6 @@ variable "kms_description" {
 variable "backup_role" {
   type        = string
   description = "backup role used by local backup vault"
-
-}
-
-variable "selection" {
-  type        = map(any)
-  description = "selection criteria for backups"
 
 }
 
@@ -39,4 +27,16 @@ variable "centrailized_vault_arn" {
   type        = string
   default     = ""
 
+}
+
+variable "environment" {
+  description = "Choose region for stack"
+  type        = string
+  default     = ""
+}
+
+variable "centralized_account_number" {
+  description = "Choose region for stack"
+  type        = string
+  default     = ""
 }

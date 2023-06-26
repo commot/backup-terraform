@@ -1,17 +1,9 @@
 module "backup_vault" {
-  source = "../../Modules/Backup/Vault"
+  source = "../../Modules/Backup/Centralized_vault"
 
   location = var.location
-  vault_policy      = data.aws_iam_policy_document.vault_policy.json
-  kms_key = module.kms.arn
+  environment = var.environment
+  key_alias = "${var.environment}-${var.location}-backup"
   
-}
-
-
-module "kms" {
-  source = "../../Modules/KMS"
-  description = var.kms_description
-  key_alias = var.key_alias
-  key_policy = data.aws_iam_policy_document.backup_key_policy.json
 }
 

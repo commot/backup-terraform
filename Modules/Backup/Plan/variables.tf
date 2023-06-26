@@ -55,3 +55,8 @@ variable "local_vault" {
     description = "Local vault name"
 }
 
+variable "environment" {
+    type = string
+    description = "Local environment"
+}
+
